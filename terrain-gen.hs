@@ -31,14 +31,14 @@ main = do
     let rands = nextN (2*num_vectors) gen           -- each pair of nums makes a Vector
     let infl_vect_list = randomsToVectors rands
     -- init map and corner map
-    let corner_map = assignVectors infl_vect_list chunk_size
+    let corner_map = vectors infl_vect_list chunk_size
     {-
         Code below might need to be looped for each octave
         For now, the code will generate one octave
     -}
     -- fill 4 maps with dot products from each chunk's 4 influence vectors
-    let ulMap = assignGradients corner_map (0,0) (genEmptyMap chunks_length chunk_size)
-    let llMap = assignGradients corner_map (0,1) (genEmptyMap chunks_length chunk_size)
-    let urMap = assignGradients corner_map (1,0) (genEmptyMap chunks_length chunk_size)
-    let lrMap = assignGradients corner_map (1,1) (genEmptyMap chunks_length chunk_size)
+    let ulMap = gradients corner_map (pixels chunks_length chunk_size) chunk_size (0,0)
+    let llMap = gradients corner_map (pixels chunks_length chunk_size) chunk_size (0,1)
+    let urMap = gradients corner_map (pixels chunks_length chunk_size) chunk_size (1,0)
+    let lrMap = gradients corner_map (pixels chunks_length chunk_size) chunk_size (1,1)
     return ()
