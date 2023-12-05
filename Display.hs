@@ -34,7 +34,7 @@ pixelToASCII p mn rg
     | pix p <= (mn + (0.8*rg)) = '$'
     | pix p <= (mn + (0.9*rg)) = '%'
     | pix p <= (mn + (1.0*rg)) = '@'
-    | otherwise = error "pixelToASCII: pixel math error"
+    | otherwise = '@'
 
 minMap :: Map -> Double
 minMap [] = error "Cannot find minimum: empty map"
