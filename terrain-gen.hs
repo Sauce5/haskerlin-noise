@@ -24,7 +24,7 @@ main = do
     seed <- getLine
     -- default parameters for now
     let chunks_length = 2       -- map is chunks_length x chunks_length
-    let chunk_size = 6          -- each chunk is chunk_size x chunk_size
+    let chunk_size = 16          -- each chunk is chunk_size x chunk_size
     -- number of vectors to make
     let num_vectors = nextSquare chunks_length
     -- generate randomly rotated vectors
@@ -39,8 +39,12 @@ main = do
     -}
     -- fill 4 maps with dot products from each chunk's 4 influence vectors
     let ulMap = gradients corner_map (pixels chunks_length chunk_size) chunk_size (0,0)
-    let llMap = gradients corner_map (pixels chunks_length chunk_size) chunk_size (1,0)
     let urMap = gradients corner_map (pixels chunks_length chunk_size) chunk_size (0,1)
+    let llMap = gradients corner_map (pixels chunks_length chunk_size) chunk_size (1,0)
     let lrMap = gradients corner_map (pixels chunks_length chunk_size) chunk_size (1,1)
-    putStrLn $ mapToString ulMap
+    -- print all 4 maps
+    putStrLn $ stringMap ulMap
+    putStrLn $ stringMap urMap
+    putStrLn $ stringMap llMap
+    putStrLn $ stringMap lrMap
     return ()
