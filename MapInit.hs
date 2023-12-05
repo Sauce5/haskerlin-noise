@@ -8,6 +8,9 @@ import NoiseTypes
 
 -- generate normalized vectors from random numbers
 
+{-
+    Turns list of random integers into list of vectors.
+-}
 randomsToVectors :: [Integer] -> [Vector]
 randomsToVectors [] = []
 randomsToVectors [x] = []
@@ -18,6 +21,9 @@ randomsToVectors (x:y:xs) = normalize (newVector (-1) (-1) (fx,fy)) : randomsToV
 hypotenuse :: Double -> Double -> Double
 hypotenuse a b = sqrt (a*a + b*b)
 
+{-
+    Normalizes a vector and returns it.
+-}
 normalize :: Vector -> Vector
 normalize v = newVector (vecX v) (vecY v) (vx/h,vy/h)
         where h  = hypotenuse vx vy

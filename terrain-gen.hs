@@ -4,6 +4,7 @@ import Data.Time.Clock.System (getSystemTime, systemNanoseconds)
 import NoiseTypes
 import MapInit
 import Gradients
+import Display
 
 nextN :: Integer -> StdGen -> [Integer]
 nextN n gen = case abs n of
@@ -22,8 +23,8 @@ main = do
     putStr "Seed: "
     seed <- getLine
     -- default parameters for now
-    let chunks_length = 3       -- map is chunks_length x chunks_length (16 chunks total)
-    let chunk_size = 2         -- this means each chunk is of size 16x16 pixels
+    let chunks_length = 2       -- map is chunks_length x chunks_length
+    let chunk_size = 6          -- each chunk is chunk_size x chunk_size
     -- number of vectors to make
     let num_vectors = nextSquare chunks_length
     -- generate randomly rotated vectors
@@ -31,14 +32,15 @@ main = do
     let rands = nextN (2*num_vectors) gen           -- each pair of nums makes a Vector
     let infl_vect_list = randomsToVectors rands
     -- init map and corner map
-    let corner_map = vectors infl_vect_list chunk_size
+    let corner_map = vectors infl_vect_list (chunks_length + 1)
     {-
         Code below might need to be looped for each octave
         For now, the code will generate one octave
     -}
     -- fill 4 maps with dot products from each chunk's 4 influence vectors
     let ulMap = gradients corner_map (pixels chunks_length chunk_size) chunk_size (0,0)
-    let llMap = gradients corner_map (pixels chunks_length chunk_size) chunk_size (0,1)
-    let urMap = gradients corner_map (pixels chunks_length chunk_size) chunk_size (1,0)
+    let llMap = gradients corner_map (pixels chunks_length chunk_size) chunk_size (1,0)
+    let urMap = gradients corner_map (pixels chunks_length chunk_size) chunk_size (0,1)
     let lrMap = gradients corner_map (pixels chunks_length chunk_size) chunk_size (1,1)
+    putStrLn $ mapToString ulMap
     return ()
