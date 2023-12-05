@@ -1,10 +1,12 @@
 import System.Random (mkStdGen, Random(randomR), StdGen)
 import Data.Time.Clock.System (getSystemTime, systemNanoseconds)
+import Data.List (transpose)
 
 import NoiseTypes
 import MapInit
 import Gradients
 import Display
+import Smoothing
 
 nextN :: Integer -> StdGen -> [Integer]
 nextN n gen = case abs n of
@@ -23,7 +25,7 @@ main = do
     putStr "Seed: "
     seed <- getLine
     -- default parameters for now
-    let chunks_length = 2       -- map is chunks_length x chunks_length
+    let chunks_length = 5       -- map is chunks_length x chunks_length
     let chunk_size = 16          -- each chunk is chunk_size x chunk_size
     -- number of vectors to make
     let num_vectors = nextSquare chunks_length
@@ -43,8 +45,14 @@ main = do
     let llMap = gradients corner_map (pixels chunks_length chunk_size) chunk_size (1,0)
     let lrMap = gradients corner_map (pixels chunks_length chunk_size) chunk_size (1,1)
     -- print all 4 maps
-    putStrLn $ stringMap ulMap
-    putStrLn $ stringMap urMap
-    putStrLn $ stringMap llMap
-    putStrLn $ stringMap lrMap
+    -- putStrLn $ stringMap ulMap
+    -- putStrLn $ stringMap urMap
+    -- putStrLn "\nSMOOTHED:\n"
+    -- print smooth map between ulMap and urMap
+    let ulurMap = blend ulMap urMap chunk_size
+    let lllrMap = blend llMap lrMap chunk_size
+    -- putStrLn $ stringMap ulurMap
+    -- putStrLn $ stringMap lllrMap
+    let blendedMap = transpose $ blend (transpose ulurMap) (transpose lllrMap) chunk_size
+    putStrLn $ stringMap blendedMap
     return ()
