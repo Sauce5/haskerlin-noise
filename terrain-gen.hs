@@ -7,6 +7,7 @@ import MapInit
 import Gradients
 import Display
 import Smoothing
+import Octaves
 
 nextN :: Integer -> StdGen -> [Integer]
 nextN n gen = case abs n of
@@ -35,24 +36,10 @@ main = do
     let infl_vect_list = randomsToVectors rands
     -- init map and corner map
     let corner_map = vectors infl_vect_list (chunks_length + 1)
-    {-
-        Code below might need to be looped for each octave
-        For now, the code will generate one octave
-    -}
-    -- fill 4 maps with dot products from each chunk's 4 influence vectors
-    let ulMap = gradients corner_map (pixels chunks_length chunk_size) chunk_size (0,0)
-    let urMap = gradients corner_map (pixels chunks_length chunk_size) chunk_size (0,1)
-    let llMap = gradients corner_map (pixels chunks_length chunk_size) chunk_size (1,0)
-    let lrMap = gradients corner_map (pixels chunks_length chunk_size) chunk_size (1,1)
-    -- print all 4 maps
-    -- putStrLn $ stringMap ulMap
-    -- putStrLn $ stringMap urMap
-    -- putStrLn "\nSMOOTHED:\n"
-    -- print smooth map between ulMap and urMap
-    let ulurMap = blend ulMap urMap chunk_size
-    let lllrMap = blend llMap lrMap chunk_size
-    -- putStrLn $ stringMap ulurMap
-    -- putStrLn $ stringMap lllrMap
-    let blendedMap = transpose $ blend (transpose ulurMap) (transpose lllrMap) chunk_size
-    putStrLn $ stringMap blendedMap
+
+    -- generate one octave of Perlin noise
+    let octave1 = octave corner_map chunks_length chunk_size
+    -- print octave
+    putStrLn $ stringMap octave1
+    
     return ()

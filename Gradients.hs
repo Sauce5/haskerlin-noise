@@ -21,7 +21,7 @@ inflVectorOf p cm (io1,io2) sz = (cm !! fromIntegral i1) !! fromIntegral i2
 
 -- Integer arg is chunk size
 offsVectorOf :: Pixel -> (Integer,Integer) -> Integer -> Vector
-offsVectorOf p (ip1,ip2) sz = newVector (-1) (-1) (fromIntegral $ o1, fromIntegral $ o2)
+offsVectorOf p (ip1,ip2) sz = newVector (-1) (-1) (fromIntegral o1, fromIntegral o2)
               where (o1,o2) = (m1 - (ip1*sz), m2 - (ip2*sz))
                     (m1,m2) = (p1 `mod` sz, p2 `mod` sz)
                     (p1,p2) = (fromIntegral (pixX p), fromIntegral (pixY p))
