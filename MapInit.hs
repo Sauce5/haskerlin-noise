@@ -13,10 +13,14 @@ import NoiseTypes
 -}
 randomsToVectors :: [Integer] -> [Vector]
 randomsToVectors [] = []
-randomsToVectors [x] = []
-randomsToVectors (x:y:xs) = normalize (newVector (-1) (-1) (fx,fy)) : randomsToVectors xs
-    where fx = fromIntegral x
-          fy = fromIntegral y
+randomsToVectors (x:y:z:xs) = newVector (-1) (-1) (fx, fy) : randomsToVectors xs
+      where theta = (x*100) + (y*10) + z
+            fx = cos (fromIntegral theta * (pi/180.0))
+            fy = sin (fromIntegral theta * (pi/180.0))
+-- randomsToVectors [x] = []
+-- randomsToVectors (x:y:xs) = normalize (newVector (-1) (-1) (fx,fy)) : randomsToVectors xs
+--     where fx = fromIntegral x
+--           fy = fromIntegral y
 
 hypotenuse :: Double -> Double -> Double
 hypotenuse a b = sqrt (a*a + b*b)

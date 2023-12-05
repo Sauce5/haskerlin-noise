@@ -12,7 +12,7 @@ nextN :: Integer -> StdGen -> [Integer]
 nextN n gen = case abs n of
     0 -> []
     _ -> do
-        let rn = randomR (1::Integer,99::Integer) gen
+        let rn = randomR (0::Integer,9::Integer) gen
         let nx = fst rn
         nx : nextN (abs n - 1) (snd rn)
 
@@ -31,7 +31,7 @@ main = do
     let num_vectors = nextSquare chunks_length
     -- generate randomly rotated vectors
     let gen = mkStdGen (read seed)
-    let rands = nextN (2*num_vectors) gen           -- each pair of nums makes a Vector
+    let rands = nextN (3*num_vectors) gen           -- each pair of nums makes a Vector
     let infl_vect_list = randomsToVectors rands
     -- init map and corner map
     let corner_map = vectors infl_vect_list (chunks_length + 1)
