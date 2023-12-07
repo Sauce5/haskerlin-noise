@@ -1,8 +1,5 @@
 module Octaves
-( genOctave
-, genSeries
-, applyPersistance
-, addOctaves
+( fractal
 ) where
 
 import Data.List (transpose)
@@ -12,6 +9,17 @@ import NoiseTypes
 import MapInit
 import Gradients
 import Smoothing
+
+{-
+    Generate fractal noise
+     - for now, stick with lacunarity = 2 and even chunk sizes
+     - !!! don't use a chunk size that isn't perfectly divisible by the lacunarity !!!
+    Seed -> Number of Octaves -> Fractal Perlin Noise Map
+-}
+fractal :: Int -> Integer -> Map
+fractal seed n = addOctaves $ applyPersistance 0.5 octaves
+    where octaves = genSeries seed n 8 8 2
+        -- chunk length = 8, chunk size = 8, lacunarity = 2
 
 {-
     Generate series of octaves with a specific lacunarity
