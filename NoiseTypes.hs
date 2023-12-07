@@ -14,6 +14,8 @@ data Pixel = Pixel {
     pix  :: Double          -- pixel data
 } deriving Show
 
+type Octave = Map
+
 {-
     Wrapper for creating a new vector.
 -}

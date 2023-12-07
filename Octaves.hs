@@ -1,5 +1,8 @@
 module Octaves
 ( genOctave
+, genSeries
+, applyPersistance
+, addOctaves
 ) where
 
 import Data.List (transpose)
@@ -11,10 +14,22 @@ import Gradients
 import Smoothing
 
 {-
-    Generate an octave from a seed
-    Seed -> Chunk Length -> Chunk Size -> Map
+    Generate series of octaves with a specific lacunarity
+    (lacunarity = basically how subdivided the chunks in a map are)
+    Seed -> Number of Octaves -> Chunk Length -> Chunk Size -> Lacunarity -> [Octave]
 -}
-genOctave :: Int -> Integer -> Integer -> Map
+genSeries :: Int -> Integer -> Integer -> Integer -> Integer -> [Octave]
+genSeries seed 0 ln sz l = []
+genSeries seed n ln  0 l = []
+genSeries seed n ln  1 l = []
+genSeries seed n ln sz l = oct : genSeries seed (n-1) (ln * l) (sz `div` l) l
+    where oct = genOctave seed ln sz
+
+{-
+    Generate an octave from a seed
+    Seed -> Chunk Length -> Chunk Size -> Octave
+-}
+genOctave :: Int -> Integer -> Integer -> Octave
 genOctave seed ln sz = do
     -- default parameters for now
     let chunks_length = ln       -- map is chunks_length x chunks_length
@@ -52,3 +67,28 @@ octave cm cl sz = transpose $ blend (transpose ulurMap) (transpose lllrMap) sz
           urMap = gradients cm (pixels cl sz) sz (0,1)
           llMap = gradients cm (pixels cl sz) sz (1,0)
           lrMap = gradients cm (pixels cl sz) sz (1,1)
+
+{-
+    Modifies octaves using persistance variable
+-}
+applyPersistance :: Double -> [Octave] -> [Octave]
+applyPersistance p [] = []
+applyPersistance p (o:os) = po : applyPersistance (p * p) os
+    where po = bindMap o (\px -> newPixel (pixX px) (pixY px) (p * pix px))
+
+{-
+    Adds octave values together into one map
+-}
+addOctaves :: [Octave] -> Map
+addOctaves [] = []
+addOctaves [o] = o
+addOctaves (o:os) = addTwoOctaves o (addOctaves os)
+
+addTwoOctaves :: Octave -> Octave -> Octave
+addTwoOctaves [] [] = []
+addTwoOctaves (r1:r1s) (r2:r2s) = addTwoOctavesRows r1 r2 : addTwoOctaves r1s r2s
+
+addTwoOctavesRows :: [Pixel] -> [Pixel] -> [Pixel]
+addTwoOctavesRows [] [] = []
+addTwoOctavesRows (p1:p1s) (p2:p2s) = np : addTwoOctavesRows p1s p2s
+    where np = newPixel (pixX p1) (pixY p1) (pix p1 + pix p2)
