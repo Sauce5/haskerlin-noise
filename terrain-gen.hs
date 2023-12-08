@@ -16,6 +16,6 @@ main = do
     -}
     let seed = read inpSeed
     let noise = fractal seed 8
-    putStrLn $ stringMap noise
+    putStrLn $ stringMap noise disBasic
 
     return ()
