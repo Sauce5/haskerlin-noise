@@ -84,13 +84,13 @@ disBasic p mn rg
 disBasicAlt :: Displayer
 disBasicAlt p mn rg
     | pix p <= (mn + (0.125*rg)) = '.'
-    | pix p <= (mn + (0.25*rg)) = ','
+    | pix p <= (mn + (0.25 *rg)) = ','
     | pix p <= (mn + (0.375*rg)) = ':'
-    | pix p <= (mn + (0.5*rg)) = ':'
+    | pix p <= (mn + (0.5  *rg)) = ';'
     | pix p <= (mn + (0.625*rg)) = 'i'
-    | pix p <= (mn + (0.75*rg)) = 'l'
+    | pix p <= (mn + (0.75 *rg)) = 'l'
     | pix p <= (mn + (0.875*rg)) = 'w'
-    | pix p <= (mn + (1.0*rg)) = 'W'
+    | pix p <= (mn + (1.0  *rg)) = 'W'
     | otherwise = 'W'    -- for floating point errors (pix p > 1)
 
 {-
