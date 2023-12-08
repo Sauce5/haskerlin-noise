@@ -18,8 +18,9 @@ randomsToVectors (x:y:z:xs) = newVector (-1) (-1) (fx, fy) : randomsToVectors xs
             fx = cos (fromIntegral theta * (pi/180.0))
             fy = sin (fromIntegral theta * (pi/180.0))
 
--- initialize CornerMap
-
+{-
+    Initialize CornerMap of vectors
+-}
 vectors :: [Vector] -> Integer -> CornerMap
 vectors vs n = indexVectors mat 0
    where mat = vectorsToMap vs n
@@ -31,6 +32,9 @@ vectorsToMap vs n = row : vectorsToMap nvs n
               nvs = snd spl
               spl = splitAt (fromIntegral n) vs
 
+{-
+    Add indices to each vector
+-}
 indexVectors :: CornerMap -> Int -> CornerMap
 indexVectors []     _ = []
 indexVectors (r:rs) i = indexVectorsRow r i 0 : indexVectors rs (i+1)
@@ -39,8 +43,9 @@ indexVectorsRow :: [Vector] -> Int -> Int -> [Vector]
 indexVectorsRow []     _ _ = []
 indexVectorsRow (v:vs) i j = newVector i j (vec v) : indexVectorsRow vs i (j+1)
 
--- initialize Map
-
+{-
+    Initialize Map of empty pixels
+-}
 pixels :: Integer -> Integer -> Map
 pixels ch sz = indexPixels mat 0
       where mat = genEmptyMap ch sz
@@ -50,6 +55,9 @@ genEmptyMap cs sz = replicate (fromIntegral ps) row
         where row = replicate (fromIntegral ps) (newPixel (-1) (-1) 0.0)
               ps  = cs * sz
 
+{-
+    Add indices to each pixel
+-}
 indexPixels :: Map -> Int -> Map
 indexPixels [] _ = []
 indexPixels (r:rs) i = indexPixelsRow r i 0 : indexPixels rs (i+1)

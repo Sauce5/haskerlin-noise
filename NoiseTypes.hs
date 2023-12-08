@@ -5,14 +5,14 @@ data Vector = Vector {
     vecX :: Int,            -- row
     vecY :: Int,            -- col
     vec  :: (Double,Double) -- vector data
-} deriving Show
+} -- deriving Show
 
 type Map = [[Pixel]]
 data Pixel = Pixel {
     pixX :: Int,            -- row
     pixY :: Int,            -- col
     pix  :: Double          -- pixel data
-} deriving Show
+} -- deriving Show
 
 type Octave = Map
 

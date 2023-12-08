@@ -52,9 +52,15 @@ genOctave seed ln sz = do
     let corner_map = vectors infl_vect_list (chunks_length + 1)
     octave corner_map chunks_length chunk_size
 
+{-
+    nextSquare(n) = (n+1)^2
+-}
 nextSquare :: Integer -> Integer
 nextSquare n = (n + 1) * (n + 1)
 
+{-
+    Generates a list of n random digits
+-}
 nextN :: Integer -> StdGen -> [Integer]
 nextN n gen = case abs n of
     0 -> []

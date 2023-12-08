@@ -17,6 +17,10 @@ blendRows r1 r2 sz = transition c1 c2 sz 0 ++ blendRows c1s c2s sz
     where (c1,c1s) = splitAt (fromIntegral sz) r1
           (c2,c2s) = splitAt (fromIntegral sz) r2
 
+{-
+    Combined lerp and smooth step function
+    (calculated across a row of pixels)
+-}
 transition :: [Pixel] -> [Pixel] -> Integer -> Integer -> [Pixel]
 transition [] [] _ _ = []
 transition (p1:p1s) (p2:p2s) sz i = newPixel (pixX p1) (pixY p1) tp : transition p1s p2s sz (i+1)

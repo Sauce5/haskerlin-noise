@@ -1,12 +1,12 @@
-import System.Random (mkStdGen, Random(randomR), StdGen)
-import Data.Time.Clock.System (getSystemTime, systemNanoseconds)
-import Data.List (transpose)
 import Text.Read (readMaybe)
 
 import Display
-import Octaves
+import Octaves (fractal)
 
 -- main function
+{-
+    Main function - takes valid seed and generates noise map.
+-}
 main :: IO ()
 main = do
     putStr "Seed: "

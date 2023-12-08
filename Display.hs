@@ -9,6 +9,11 @@ module Display
 import Text.Printf
 import NoiseTypes
 
+{-
+    Displays map as string
+    Calculates minimum value in map and range of values,
+    then passes those parameters (eventually) to the display function (Displayer)
+-}
 stringMap :: Map -> Displayer -> String
 stringMap m f = mapToString m min range f
     where min = minMap m
@@ -47,9 +52,13 @@ maxRow [p] = pix p
 maxRow (p:q:ps) = if pix p > pix q then maxRow (p:ps) else maxRow (q:ps)
 
 {-
-    Display Methods
+    DISPLAY METHODS
 -}
 
+{-
+    Display function
+    type synonym used for readability
+-}
 type Displayer = Pixel -> Double -> Double -> Char
 
 {-
