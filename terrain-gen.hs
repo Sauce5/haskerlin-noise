@@ -4,7 +4,6 @@ import Data.List (transpose)
 
 import Display
 import Octaves
-import NoiseTypes
 
 -- main function
 main :: IO ()
@@ -15,7 +14,7 @@ main = do
         Error checking on the seed will go here.
     -}
     let seed = read inpSeed
-    let noise = fractal seed 8
-    putStrLn $ stringMap noise disBasic
+    let noise = fractal seed 4
+    putStrLn $ stringMap noise disIslands
 
     return ()

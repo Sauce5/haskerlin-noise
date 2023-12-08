@@ -18,7 +18,7 @@ import Smoothing
 -}
 fractal :: Int -> Integer -> Map
 fractal seed n = addOctaves $ applyPersistance 0.5 octaves
-    where octaves = genSeries seed n 8 8 2
+    where octaves = genSeries seed n 6 12 2
         -- chunk length = 8, chunk size = 8, lacunarity = 2
 
 {-
